@@ -1,0 +1,19 @@
+name: Filter test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  master-job:
+    runs-on: ubuntu-latest
+    outputs:
+      result: 'true'
+    steps:
+      - run: echo "master-job"
+
+  slave-job:
+    needs: master-job
+    if: ${{ needs.master-job.outputs.result == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "slave-job"
