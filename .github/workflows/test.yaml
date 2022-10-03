@@ -2,6 +2,7 @@ name: Filter test
 
 on:
   workflow_dispatch:
+  push:
 
 jobs:
   master-job:
