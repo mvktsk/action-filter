@@ -7,9 +7,17 @@ jobs:
   master-job:
     runs-on: ubuntu-latest
     outputs:
-      result: 'true'
+      result: ${{ steps.check-commit-message.outputs.result }}
     steps:
-      - run: echo "master-job"
+      - name: Check commit message
+        id: check-commit-message
+        run: |
+          if [[ ${{ github.event.head_commit.message }} =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; 
+          then
+            echo "::set-output name=result::true"
+          else
+            echo "::set-output name=result::false"
+          fi
 
   slave-job:
     needs: master-job
